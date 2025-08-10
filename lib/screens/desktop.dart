@@ -310,10 +310,7 @@ class AboutMeWidget extends StatelessWidget {
                 maxLines: 5,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.start,
-                style: GoogleFonts.kalam(
-                  color: Colors.white,
-                  fontSize: 26,
-                ),
+                style: GoogleFonts.kalam(color: Colors.white, fontSize: 26),
               ),
             ),
           ),
@@ -441,7 +438,7 @@ class _DashedCirclePainter extends CustomPainter {
 class RecentProjectsCarousel extends StatelessWidget {
   final bool isMobile;
   final bool isTablet;
-  
+
   const RecentProjectsCarousel({
     Key? key,
     required this.isMobile,
@@ -512,6 +509,36 @@ This app is ideal if you’re looking for a local‑first, optionally online mul
             "A dynamic Flutter app for MafAI, featuring real‑time gameplay via WebSockets, immersive animations, and role assignments for each player. It supports both offline (local multiplayer) via bloc and online multiplayer using WebSocket connectivity—all within a clean, responsive UI.",
         mainImagePath: "assets/Mafia/Mainhand.png",
       ),
+      Project(
+        name: "Food Ordring App",
+        details:
+            "This food ordering app offers a smooth, secure, and user-friendly experience for exploring and ordering your favorite dishes.\n"
+            "Powered by Firebase Authentication, users can quickly sign up, log in, and manage their accounts with confidence.\n"
+            "The app features a cart system for adding and reviewing items before checkout, as well as an order history section to easily track past purchases and reorder favorites.\n"
+            "Each menu item includes a detailed food screen showcasing mouthwatering images, descriptions, and a clear list of ingredients, ensuring transparency and helping customers make informed choices.\n",
+        mainImagePath: "assets/foodApp.png",
+        link: "https://github.com/eddypencil/Menu_app_with_firebase",
+        images: [],
+        description:
+            "This food ordering app makes exploring and ordering your favorite dishes easy and secure. With Firebase Authentication, users can sign up, log in, and manage accounts effortlessly. Features include a cart, order history, and detailed food screens with images and ingredients for informed choices. Whether it’s a snack or a full meal, ordering is fast, safe, and convenient.",
+      ),
+      Project(
+        images: [],
+        description:
+            "A sleek Flutter app using flutter_map for interactive maps, custom markers, routes, and live GPS tracking.",
+        name: "Map App",
+        details:
+            "FlutterMap Navigator is a sleek and responsive mobile application built with Flutter and powered by the flutter_map package, delivering fast and interactive mapping experiences across iOS and Android.\n\n"
+            "With FlutterMap Navigator, users can:\n"
+            "- Browse interactive maps with smooth zooming, panning, and rotation.\n"
+            "- Display custom markers and icons for points of interest, events, or user locations.\n"
+            "- Draw routes and polygons to visualize paths, regions, and boundaries.\n"
+            "- Switch between map tile providers (such as OpenStreetMap, Mapbox, or custom tiles).\n"
+            "- Track live location using device GPS for real-time navigation.\n\n"
+            "Designed with a clean UI, intuitive gestures, and flexible customization, this app demonstrates the power of Flutter and the versatility of the flutter_map plugin for building modern location-based experiences.",
+        mainImagePath: "assets/mapApp.png",
+        link: "https://github.com/eddypencil/flutter_map_app",
+      ),
     ];
 
     return MouseRegion(
@@ -528,7 +555,7 @@ This app is ideal if you’re looking for a local‑first, optionally online mul
             enlargeCenterPage: isMobile,
             viewportFraction: isMobile ? 0.8 : (isTablet ? 0.6 : 0.4),
             autoPlay: true,
-            autoPlayInterval: const Duration(seconds: 2),
+            autoPlayInterval: const Duration(seconds: 5),
             autoPlayAnimationDuration: const Duration(milliseconds: 1500),
             pauseAutoPlayOnTouch: true,
           ),
@@ -581,12 +608,14 @@ class MainBannerWidget extends StatelessWidget {
                   left: -100,
                   child: Transform.translate(
                     offset: Offset(-offset * 0.5, -offset),
-                    child: RepaintBoundary(
-                      child: Image.asset(
-                        'assets/topLeft.png',
-                        width: isMobile ? 500 : 800,
-                        height: isMobile ? 300 : 500,
-                        fit: BoxFit.cover,
+                    child: IgnorePointer(
+                      child: RepaintBoundary(
+                        child: Image.asset(
+                          'assets/topLeft.png',
+                          width: isMobile ? 500 : 800,
+                          height: isMobile ? 300 : 500,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
@@ -596,12 +625,14 @@ class MainBannerWidget extends StatelessWidget {
                   right: 0,
                   child: Transform.translate(
                     offset: Offset(offset * 0.5, 0),
-                    child: RepaintBoundary(
-                      child: Image.asset(
-                        'assets/bottomRight.png',
-                        width: isMobile ? 500 : 800,
-                        height: isMobile ? 500 : 800,
-                        fit: BoxFit.cover,
+                    child: IgnorePointer(
+                      child: RepaintBoundary(
+                        child: Image.asset(
+                          'assets/bottomRight.png',
+                          width: isMobile ? 500 : 800,
+                          height: isMobile ? 500 : 800,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
@@ -654,7 +685,45 @@ class MainBannerWidget extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  Spacer(flex: 2),
+
+                  SizedBox(height: isMobile ? 12 : 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Spacer(flex: 1),
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () => _launchURL(
+                          'https://www.linkedin.com/in/eyad-elasser-b5b44b336',
+                        ),
+                        child: Container(
+                          width: isMobile ? 48 : 64,
+                          height: isMobile ? 48 : 64,
+                          padding: const EdgeInsets.all(8),
+                          child: SvgPicture.asset(
+                            'assets/svgs/linkedin.svg',
+                            height: isMobile ? 32 : 48,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: isMobile ? 12 : 16),
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () =>
+                            _launchURL('https://github.com/eddypencil'),
+                        child: Container(
+                          width: isMobile ? 48 : 64,
+                          height: isMobile ? 48 : 64,
+                          padding: const EdgeInsets.all(8),
+                          child: SvgPicture.asset(
+                            'assets/svgs/github.svg',
+                            height: isMobile ? 32 : 48,
+                          ),
+                        ),
+                      ),
+                      Spacer(flex: 2),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -663,13 +732,15 @@ class MainBannerWidget extends StatelessWidget {
             bottom: 0,
             left: 0,
             right: 0,
-            child: RepaintBoundary(
-              child: ClipRect(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 0.5, sigmaY: 0.5),
-                  child: Container(
-                    height: 80,
-                    color: Colors.black.withOpacity(0.1),
+            child: IgnorePointer(
+              child: RepaintBoundary(
+                child: ClipRect(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 0.5, sigmaY: 0.5),
+                    child: Container(
+                      height: 80,
+                      color: Colors.black.withOpacity(0.1),
+                    ),
                   ),
                 ),
               ),
@@ -678,6 +749,10 @@ class MainBannerWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _launchURL(String url) {
+    html.window.open(url, '_blank');
   }
 }
 
@@ -800,7 +875,7 @@ class _ProjectsWidgetState extends State<ProjectsWidget>
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          SizedBox(height: widget.isMobile ? 8 : 16),
+                          SizedBox(height: widget.isMobile ? 16 : 16),
                           SlideFade(
                             delay: const Duration(milliseconds: 300),
                             child: ElevatedButton(
@@ -918,9 +993,10 @@ class _AppBarButtonState extends State<AppBarButton>
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(widget.icon, 
-                  color: Colors.black, 
-                  size: widget.isMobile ? 24 : 30
+                Icon(
+                  widget.icon,
+                  color: Colors.black,
+                  size: widget.isMobile ? 24 : 30,
                 ),
                 if (_isHovered || !widget.isMobile) ...[
                   SizedBox(width: widget.isMobile ? 4 : 16),
