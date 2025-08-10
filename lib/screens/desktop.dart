@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:portofilio_website/ignore.dart';
 
 import '../model/model.dart';
 
@@ -135,6 +136,7 @@ class _MainScreenState extends State<MainScreen> {
                   size: isMobile ? 60 : 100,
                 ),
                 SizedBox(height: isMobile ? 16 : 32),
+                SizedBox(width: 500,child: ContactForm(isMobile: isMobile)),
               ],
             ),
           );
@@ -319,6 +321,250 @@ class AboutMeWidget extends StatelessWidget {
     }
   }
 }
+class ContactForm extends StatefulWidget {
+  final bool isMobile;
+
+  const ContactForm({Key? key, required this.isMobile}) : super(key: key);
+
+  @override
+  State<ContactForm> createState() => _ContactFormState();
+}
+
+class _ContactFormState extends State<ContactForm> {
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _messageController = TextEditingController();
+  bool _isSubmitting = false;
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _messageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            "Send Me a Message",
+            style: GoogleFonts.kalam(
+              color: Colors.white,
+              fontSize: widget.isMobile ? 24 : 28,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: widget.isMobile ? TextAlign.center : TextAlign.left,
+          ),
+          SizedBox(height: 24),
+          _buildTextField(
+            controller: _nameController,
+            label: "Your Name",
+            hint: "Enter your full name",
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your name';
+              }
+              return null;
+            },
+          ),
+          SizedBox(height: 16),
+          _buildTextField(
+            controller: _emailController,
+            label: "Email Address",
+            hint: "your.email@example.com",
+            keyboardType: TextInputType.emailAddress,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your email';
+              }
+              if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                return 'Please enter a valid email';
+              }
+              return null;
+            },
+          ),
+          SizedBox(height: 16),
+          _buildTextField(
+            controller: _messageController,
+            label: "Message",
+            hint: "Tell me about your project or just say hello!",
+            maxLines: 5,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter a message';
+              }
+              if (value.length < 10) {
+                return 'Message should be at least 10 characters';
+              }
+              return null;
+            },
+          ),
+          SizedBox(height: 24),
+          AnimatedContainer(
+            duration: Duration(milliseconds: 200),
+            child: ElevatedButton(
+              onPressed: _isSubmitting ? null : _submitForm,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.black,
+                padding: EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                elevation: 8,
+              ),
+              child: _isSubmitting
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                          ),
+                        ),
+                        SizedBox(width: 12),
+                        Text(
+                          "Sending...",
+                          style: GoogleFonts.kalam(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    )
+                  : Text(
+                      "Send Message",
+                      style: GoogleFonts.kalam(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    required String hint,
+    TextInputType keyboardType = TextInputType.text,
+    int maxLines = 1,
+    String? Function(String?)? validator,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: GoogleFonts.kalam(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        SizedBox(height: 8),
+        TextFormField(
+          controller: controller,
+          keyboardType: keyboardType,
+          maxLines: maxLines,
+          validator: validator,
+          style: GoogleFonts.kalam(
+            color: Colors.white,
+            fontSize: 16,
+          ),
+          decoration: InputDecoration(
+            hintText: hint,
+            hintStyle: GoogleFonts.kalam(
+              color: Colors.white38,
+              fontSize: 16,
+            ),
+            filled: true,
+            fillColor: Colors.black26,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.white10),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.white),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.white, width: 2),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.red, width: 1),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.red, width: 2),
+            ),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: maxLines > 1 ? 16 : 12,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _submitForm() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() => _isSubmitting = true);
+
+    
+    await Future.delayed(Duration(seconds: 2));
+
+   
+    final String name = _nameController.text;
+    final String email = _emailController.text;
+    final String message = _messageController.text;
+    
+    final String subject = Uri.encodeComponent("Portfolio Contact from $name");
+    final String body = Uri.encodeComponent(
+      "Name: $name\nEmail: $email\n\nMessage:\n$message"
+    );
+    
+    final String mailtoUrl = "mailto:${MyEmail.email}?subject=$subject&body=$body";
+    
+    html.window.open(mailtoUrl, '_self');
+
+    setState(() => _isSubmitting = false);
+
+    // Show success message
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          "Thank you for your message! Your email client should open now.",
+          style: GoogleFonts.kalam(),
+        ),
+        backgroundColor: Colors.green,
+        duration: Duration(seconds: 3),
+      ),
+    );
+
+    // Clear form
+    _nameController.clear();
+    _emailController.clear();
+    _messageController.clear();
+  }
+}
+
 
 class RotatingDashedCircle extends StatefulWidget {
   final double size;
